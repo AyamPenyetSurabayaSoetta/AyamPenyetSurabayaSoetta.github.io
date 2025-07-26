@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Belanja v2 - Ayam Penyet Surabaya</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #B48B27;
+        }
+        
+        #cart-section {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+            margin-right: 0.5rem;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9999px;
+            font-weight: 700;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .quantity-btn:hover {
+            background-color: #f1f5f9;
+        }
+
+        .validation-error {
+            border: 2px solid #ef4444 !important;
+            box-shadow: 0 0 0 2px #fecaca;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-container {
+            transform: scale(1);
+        }
+        
+        /* Filter button styles */
+        .filter-btn {
+            transition: all 0.2s;
+        }
+        .filter-btn.active {
+            background-color: #1e40af;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mx-auto max-w-7xl py-8 px-4">
+
+        <!-- Header Image -->
+        <div class="mb-6">
+            <img src="https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250715_125113431.jpg" alt="Header Ayam Penyet Surabaya" class="w-full h-48 object-cover rounded-xl shadow-lg">
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left Column: Menu and Customer Info -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-bold text-slate-800 tracking-tight">Ayam Penyet Surabaya Soetta</h1>
+                        <p class="text-slate-500 mt-2">"Awali Hidup Yang Sehat Dengan Makanan Yang Halal"</p>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800 tracking-tight mb-4">Informasi Pelanggan</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="customer-name" class="block text-sm font-medium text-slate-600 mb-1">Nama Anda</label>
+                                <input type="text" id="customer-name" required class="w-full px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <div>
+                                <label for="customer-address" class="block text-sm font-medium text-slate-600 mb-1">Alamat</label>
+                                <input type="text" id="customer-address" required class="w-full px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                        </div>
+                    </div>
+
+     <!-- Search and Filter Section -->
+                    <div class="mt-10">
+                        <div class="flex flex-col md:flex-row gap-4 mb-4">
+                            <input type="text" id="search-input" placeholder="Cari menu..." class="w-full px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div id="filter-container" class="flex flex-wrap gap-2">
+                            <!-- Filter buttons will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Menu List -->
+                    <div class="mt-6">
+                        <div id="menu-list" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Menu items will be populated here -->
+                        </div>
+                         <p id="no-results" class="text-center text-slate-500 py-8 hidden">Menu tidak ditemukan.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Shopping Cart -->
+            <div class="lg:col-span-1">
+                <div id="cart-section" class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+                        <h2 class="text-2xl font-bold text-slate-800">Keranjang Anda</h2>
+                        <button id="clear-cart-btn" title="Kosongkan Keranjang" class="text-slate-400 hover:text-red-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </div>
+                    <div id="cart-items" class="space-y-2 mb-4 max-h-96 overflow-y-auto">
+                        <p id="cart-empty-msg" class="text-slate-500 text-center py-4">Keranjang masih kosong.</p>
+                    </div>
+                    <div class="border-t border-slate-200 pt-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xl font-bold text-slate-800">Total:</span>
+                            <span id="total-price-display" class="text-2xl font-bold text-slate-900">Rp 0</span>
+                        </div>
+                        <label for="notes" class="block text-sm font-medium text-slate-600 mb-1">Catatan Tambahan</label>
+                        <textarea id="notes" rows="3" placeholder="Contoh: Request pedas..." class="w-full px-4 py-2 bg-slate-100 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                        
+                        <div id="order-buttons-container" class="mt-4 space-y-2">
+                            <button type="button" class="send-order-btn w-full bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center disabled:opacity-50" data-admin-index="0">
+                                Kirim ke Admin 1
+                            </button>
+                            <button type="button" class="send-order-btn w-full bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center disabled:opacity-50" data-admin-index="1">
+                                Kirim ke Admin 2
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Detail Modal -->
+    <div id="item-detail-modal" class="modal-overlay">
+        <div class="modal-container relative">
+            <button id="close-detail-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">&times;</button>
+            <img id="detail-modal-img" src="" alt="Detail Menu" class="w-full h-64 object-cover rounded-lg mb-4">
+            <h3 id="detail-modal-name" class="text-2xl font-bold text-slate-800">Nama Menu</h3>
+            <p id="detail-modal-desc" class="text-slate-600 mt-2">Deskripsi detail mengenai menu ini akan ditampilkan di sini.</p>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-container text-center">
+            <h3 class="text-xl font-bold text-slate-800">Konfirmasi Pesanan</h3>
+            <p class="text-slate-600 mt-2 mb-6">Apakah Anda yakin dengan pesanan ini dan ingin melanjutkannya ke WhatsApp?</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-order-btn" class="px-6 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300">Batal</button>
+                <button id="confirm-order-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- CONFIGURATION ---
+            const WHATSAPP_NUMBERS = [
+                "+628116594527",
+                "+628116111813" // GANTI NOMOR INI
+            ];
+
+            // --- MENU DATA ---
+            const allMenuData = [
+                // Makanan
+                { id: 'paket-ayam-paha', name: 'Paket Ayam Penyet (Paha)', price: 34000, category: 'Paket', group: 'Paket Ayam Penyet', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/IMG_20250725_123654.png', desc: 'Nasi dengan ayam penyet paha, sambal khas, dan lalapan segar.' },
+                { id: 'paket-ayam-dada', name: 'Paket Ayam Penyet (Dada)', price: 34000, category: 'Paket', group: 'Paket Ayam Penyet', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/IMG_20250725_123654.png', desc: 'Nasi dengan ayam penyet dada, sambal khas, dan lalapan segar.' },
+                { id: 'paket-bebek-paha', name: 'Paket Bebek Penyet (Paha)', price: 40000, category: 'Paket', group: 'Paket Bebek Penyet', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_143339816.jpg', desc: 'Nasi dengan bebek penyet paha, sambal khas, dan lalapan segar.' },
+                { id: 'paket-bebek-dada', name: 'Paket Bebek Penyet (Dada)', price: 40000, category: 'Paket', group: 'Paket Bebek Penyet', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_143339816.jpg', desc: 'Nasi dengan bebek penyet dada, sambal khas, dan lalapan segar.' },
+                { id: 'paket-lele', name: 'Paket Lele', price: 29000, category: 'Paket', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_142302094.png', desc: 'Nasi dengan lele goreng renyah, sambal, dan lalapan.' },
+                { id: 'paket-gurame', name: 'Paket Gurame', price: 39000, category: 'Paket', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_144405503.jpg', desc: 'Nasi dengan gurame goreng, sambal, dan lalapan.' },
+                { id: 'mie-goreng-ayam', name: 'Mie Goreng (Ayam)', price: 31000, category: 'Mie Jogja', group: 'Mie Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_145121567.jpg', desc: 'Mie goreng lezat dengan suwiran ayam dan sayuran.' },
+                { id: 'mie-goreng-sapi', name: 'Mie Goreng (Sapi)', price: 35000, category: 'Mie Jogja', group: 'Mie Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_145121567.jpg', desc: 'Mie goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'migor-ATB', name: 'Mie Goreng (Ayam+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Mie Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_145121567.jpg', desc: 'Mie goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'migor-DSTB', name: 'Mie Goreng (Sapi+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Mie Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/BackgroundEraser_20250425_145121567.jpg', desc: 'Mie goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'mie-godhog-ayam', name: 'Mie Godhog (Ayam)', price: 31000, category: 'Mie Jogja', group: 'Mie Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/IMG-20250425-WA0021.jpg', desc: 'Mie Kuah lezat dengan suwiran ayam dan sayuran.' },
+                { id: 'mie-godhog-sapi', name: 'Mie Godhog (Sapi)', price: 35000, category: 'Mie Jogja', group: 'Mie Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/IMG-20250425-WA0021.jpg', desc: 'Mie Kuah lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'midog-ATB', name: 'Mie Godhog (Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Mie Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/IMG-20250425-WA0021.jpg', desc: 'Mie kuah lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'midog-DSTB', name: 'Mie Godhog (Sapi+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Mie Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/main/IMG-20250425-WA0021.jpg', desc: 'Mie kuah lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'Bihun-goreng-ayam', name: 'Bihun Goreng (Ayam)', price: 31000, category: 'Mie Jogja', group: 'Bihun Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/426a3902c0d1d5c221f393c845bacccf72a8ed7c/SAVE_20250725_140944.jpg', desc: 'Bihun goreng lezat dengan suwiran ayam dan sayuran.' },
+                { id: 'bihun-goreng-sapi', name: 'Bihun Goreng (Sapi)', price: 35000, category: 'Mie Jogja', group: 'Bihun Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/426a3902c0d1d5c221f393c845bacccf72a8ed7c/SAVE_20250725_140944.jpg', desc: 'Bihun goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'bigor-ATB', name: 'Bihun Goreng (Ayam+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Bihun Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/426a3902c0d1d5c221f393c845bacccf72a8ed7c/SAVE_20250725_140944.jpg', desc: 'Bihun goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'bigor-DSTB', name: 'Bihun Goreng (Sapi+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Bihun Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/426a3902c0d1d5c221f393c845bacccf72a8ed7c/SAVE_20250725_140944.jpg', desc: ' Bihun goreng lezat dengan irisan daging sapi dan sayuran.' },
+
+                { id: 'bihun-godhog-ayam', name: 'Bihun Godhog (Ayam)', price: 31000, category: 'Mie Jogja', group: 'Bihun Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250503-WA0051.jpg', desc: 'Bihun Kuah lezat dengan suwiran ayam dan sayuran.' },
+                { id: 'bidog-sapi', name: 'Bihun Godhog (Sapi)', price: 35000, category: 'Mie Jogja', group: 'Bihun Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250503-WA0051.jpg', desc: 'Bihun Kuah lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'Bidog-ATB', name: 'Bihun Godhog (Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Bihun Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250503-WA0051.jpg', desc: 'Bihun kuah lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'bidog-DSTB', name: 'Bihun Godhog (Sapi+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Bihun Godhog Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250503-WA0051.jpg', desc: 'Bihun kuah lezat dengan irisan daging sapi dan sayuran.' },
+                 { id: 'nasgor-ayam', name: 'Nasi Goreng (Ayam)', price: 31000, category: 'Mie Jogja', group: 'Nasi Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250425-WA0119.jpg', desc: 'Nasi Goreng lezat dengan suwiran ayam dan sayuran.' },
+                { id: 'nasgor-sapi', name: 'Nasi Goreng (Sapi)', price: 35000, category: 'Mie Jogja', group: 'Nasi Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250425-WA0119.jpg', desc: 'Nasi Goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'Nasgor-ATB', name: 'Nasgor (Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Nasi Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250425-WA0119.jpg', desc: 'Nasi Goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'Nasgor-DSTB', name: 'Nasi Goreng (Sapi+Telur Bebek)', price: 37000, category: 'Mie Jogja', group: 'Nasi Goreng Spesial', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/IMG-20250425-WA0119.jpg', desc: 'Nasi Goreng lezat dengan irisan daging sapi dan sayuran.' },
+                { id: 'ayam-goreng-paha', name: 'Ayam Goreng(Paha)', price: 27000, category: 'Satuan', group: 'Ayam Goreng (satuan)', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/BackgroundEraser_20250425_144304379.jpg', desc: 'Ayam goreng, cocok untuk lauk.' },
+                { id: 'ayam-goreng-Dada', name: 'Ayam Goreng (Dada)', price: 27000, category: 'Satuan', group: 'Ayam Goreng (satuan)', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/BackgroundEraser_20250425_144304379.jpg', desc: 'Ayam goreng, cocok untuk lauk.' },
+                { id: 'Bebek-goreng-paha', name: 'Bebek Goreng(Paha)', price: 31000, category: 'Satuan', group: 'Bebek Goreng (satuan)', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/BackgroundEraser_20250425_143823582.jpg', desc: 'Bebek goreng, cocok untuk lauk.' },
+                { id: 'Bebek-goreng-Dada', name: 'Bebel Goreng (Dada)', price: 31000, category: 'Satuan', group: 'Bebek Goreng (satuan)', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/BackgroundEraser_20250425_143823582.jpg', desc: 'Bebek goreng, cocok untuk lauk.' },
+                { id: 'lele-goreng', name: 'Lele Goreng (Satuan)', price: 20000, category: 'Satuan', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/BackgroundEraser_20250425_143950967.jpg', desc: 'Lele goreng renyah satuan.' },
+    { id: 'Gurame-goreng', name: 'Gurame Goreng (Satuan)', price: 20000, category: 'Satuan', image: 'https://raw.githubusercontent.com/Bukhori1/Aps/refs/heads/Soetta/BackgroundEraser_20250425_144116230.jpg', desc: 'Gurame goreng renyah.' },
+    //Lauk & Sayur
+    { id: 'Balado-terong', name: 'Balado Terong', price: 14000, category: 'Lauk & Sayur', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_155315105.jpg', desc: 'Balado Terong Lezat, cocok untuk lauk.' },
+    { id: 'Tumis-Kangkung', name: 'Tumis Kangkung', price: 16000, category: 'Lauk & Sayur', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_151326528.jpg', desc: 'Tumisan Lezat, cocok untuk lauk.' },
+    { id: 'Cah-brokoli', name: 'Cah Brokoli', price: 18000, category: 'Lauk & Sayur', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_112257.jpg', desc: 'Tumisan Lezat, cocok untuk lauk.' },
+    { id: 'tahu-goreng', name: 'Tahu Goreng', price: 13000, category: 'Gorengan', group:'Tahu', image : 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/Untitled%20design_20250726_143949_0000.png', desc: 'Gorengan Lezat, cocok untuk lauk.' }, 
+    { id: 'tahu-penyet', name: 'Tahu Penyet', price: 16000, category: 'Gorengan', group:'Tahu', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/Untitled%20design_20250726_143949_0000.png', desc: 'Gorengan Lezat, cocok untuk lauk.' },
+    { id: 'tempe-penyet', name: 'Tempe Penyet', price: 16000, category: 'Gorengan', group:'Tempe', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG-20250425-WA0114.jpg', desc: 'Gorengan Lezat, cocok untuk lauk.' },
+    { id: 'tempe-goreng', name: 'Tempe Goreng', price: 13000, category: 'Gorengan', group:'Tempe', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG-20250425-WA0114.jpg', desc: 'Gorengan Lezat, cocok untuk lauk.' },
+    { id: 'Mendoan', name: 'Tempe Mendoan(2pcs)', price: 7000, category: 'Gorengan', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_151034809.jpg', desc: 'Gorengan Lezat, cocok untuk lauk.' },
+    { id: 'Kol-goreng', name: 'Kol Goreng', price: 7000, category: 'Gorengan', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_150035.png', desc: 'Sayur Goreng Lezat, cocok untuk lauk.' }, 
+    { id: 'udang-goreng-tepung', name: 'Udang Goreng Tepung', price: 36000, category: 'Lauk & Sayur', group: 'Udang', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_202954.jpg', desc: 'Udang Goreng Yang renyah, cocok untuk lauk' },
+    { id: 'Udang-balado', name: 'Udang Balado', price: 36000, category: 'Lauk & Sayur', group: 'Udang', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_202954.jpg', desc: 'Udang Balado dengan bumbu khas yang nikmat.' },
+    { id: 'cumi-goreng-tepung', name: 'Cumi Goreng Tepung', price: 36000, category: 'Lauk & Sayur', group: 'Cumi', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_202918.jpg', desc: 'Cumi Goreng Yang renyah, cocok untuk lauk' }, 
+    { id: 'Cumi-balado', name: 'Cumi Balado', price: 36000, category: 'Lauk & Sayur', group: 'Cumi', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_202918.jpg', desc: 'Cumi Balado dengan bumbu khas yang nikmat.' },
+    { id: 'Capcay-biasa', name: 'Capcay Biasa', price: 18000, category: 'Lauk & Sayur', group: 'Capcay', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_144826912.jpg', desc: 'Capcay nikmat dengan paduan banyak sayuran' },
+    { id: 'Capcay-Seafood', name: 'Capcay Seafood', price: 27000, category: 'Lauk & Sayur', group: 'Capcay', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_144826912.jpg', desc: 'Capcay nikmat dengan paduan banyak sayuran & Seafood' },
+                // Minuman
+                { id: 'es-teh', name: 'Es Teh Manis', price: 8000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_151508876.jpg', desc: 'Teh manis dingin yang menyegarkan.' },
+        { id: 'es-lemon-tea', name: 'Es Lemon Tea', price: 16000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000787c61f5bdb36bb778b32ae0.png', desc: 'Lemon Tea dingin yang menyegarkan.' },
+        { id: 'es-jeruk', name: 'Es Jeruk', price: 16000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_153252955.jpg', desc: 'Es jeruk peras asli, kaya vitamin C.' },
+          { id: 'LBL', name: 'Lidah Buaya Lemon', price: 18000, category: 'Minuman', group:'Lidah Buaya', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_232152.png', desc: 'Minuman khas Pontianak ' },
+         { id: 'LBC', name: 'Lidah Buaya Cocopandan', price: 18000, category: 'Minuman', group:'Lidah Buaya', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/IMG_20250726_232152.png', desc: 'Minuman khas Pontianak ' },
+    { id: 'jus-alpukat', name: 'Jus Alpukat', price: 19000, category: 'Minuman', group:'Jus Segar', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000c6f86230bae5383bbd3a3b27.png', desc: 'Jus Segar dengan beberapa pilihan.' },
+    { id: 'jus-Melon', name: 'Jus Melon', price: 19000, group:'Jus Segar', category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000c6f86230bae5383bbd3a3b27.png', desc: 'Jus Melon Segar yang nikmat.' },
+    { id: 'jus-Mangga', name: 'Jus Mangga', price: 19000, category: 'Minuman',group:'Jus Segar', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000c6f86230bae5383bbd3a3b27.png', desc: 'Jus Mangga Segar yang nikmat.' },
+    { id: 'jus-Strawbery', name: 'Jus Strawberry', price: 19000, category: 'Minuman',group:'Jus Segar', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000c6f86230bae5383bbd3a3b27.png', desc: 'Jus Mangga Segar yang nikmat.' },
+    { id: 'Red-velvet', name: 'Red Velvet', price: 20000,  category: 'Minuman', group:'Susu Rasa', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000ef1061f7bdc7f72a64a74c06.png', desc: 'Minuman Susu Rasa Buah Bit.' },
+    { id: 'Taro', name: 'Taro', price: 20000, category: 'Minuman', group:'Susu Rasa', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000ef1061f7bdc7f72a64a74c06.png', desc: 'Minuman Susu Rasa Taro.' },
+    { id: 'Matcha', name: 'Matcha', price: 20000, category: 'Minuman', group:'Susu Rasa', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_00000000ef1061f7bdc7f72a64a74c06.png', desc: 'Minuman Susu Rasa Matcha.' },
+    { id: 'es-campur', name: 'Es Campur', price: 21000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_161926242.jpg', desc: 'Es Campur Segar yang nikmat.' },
+    { id: 'teh-tarik', name: 'Teh Tarik', price: 16000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/file_0000000024c061f9824aa74d5bb70e95.png', desc: 'Perpaduan antara teh yang nikmat dan susu kental manis.' },
+    { id: 'soda-gembira', name: 'Soda Gembira', price: 21000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/BackgroundEraser_20250425_151221940.jpg', desc: 'Paduan Soda dengan Susu dan sirup cocopandan.' },
+    { id: 'brown-sugar', name: 'Brown Sugar', price: 16000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/35%20Ap%20260%20%401x_agung.pdf%20(20%20x%2031.503%20cm)_20250425_204612_0000.pdf_20250427__20250726_231523_0000.png', desc: 'Susu gula aren asli.' },
+    { id: 'air-mineral', name: 'Air Mineral', price: 7000, category: 'Minuman', image: 'https://raw.githubusercontent.com/AyamPenyetSurabayaSoetta/Lauk-minuman/refs/heads/main/35%20Ap%20260%20%401x_agung.pdf%20(20%20x%2031.503%20cm)_20250425_204612_0000.pdf_20250427__20250726_231933_0000.png', desc: 'Air mineral kemasan botol 600ml.' },
+            ];
+
+            // --- STATE MANAGEMENT ---
+            let shoppingCart = [];
+            let currentAdminIndex = 0;
+
+            // --- SELECTORS ---
+            const menuListContainer = document.getElementById('menu-list');
+            const noResultsMsg = document.getElementById('no-results');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartEmptyMsg = document.getElementById('cart-empty-msg');
+            const totalPriceDisplay = document.getElementById('total-price-display');
+            const orderButtonsContainer = document.getElementById('order-buttons-container');
+            const customerNameInput = document.getElementById('customer-name');
+            const customerAddressInput = document.getElementById('customer-address');
+            const notesInput = document.getElementById('notes');
+            const clearCartBtn = document.getElementById('clear-cart-btn');
+            const searchInput = document.getElementById('search-input');
+            const filterContainer = document.getElementById('filter-container');
+            
+            // Modal Selectors
+            const itemDetailModal = document.getElementById('item-detail-modal');
+            const confirmModal = document.getElementById('confirm-modal');
+            const closeDetailModalBtn = document.getElementById('close-detail-modal-btn');
+            const cancelOrderBtn = document.getElementById('cancel-order-btn');
+            const confirmOrderBtn = document.getElementById('confirm-order-btn');
+
+            // --- RENDER & UPDATE FUNCTIONS ---
+
+            function formatRupiah(number) {
+                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+            }
+
+            function renderMenu(itemsToRender = allMenuData) {
+                menuListContainer.innerHTML = '';
+                
+                if (itemsToRender.length === 0) {
+                    noResultsMsg.style.display = 'block';
+                } else {
+                    noResultsMsg.style.display = 'none';
+                }
+
+                const groupedMenu = itemsToRender.reduce((acc, item) => {
+                    const groupName = item.group || item.name;
+                    if (!acc[groupName]) {
+                        acc[groupName] = { image: item.image, desc: item.desc, items: [] };
+                    }
+                    acc[groupName].items.push(item);
+                    return acc;
+                }, {});
+
+                for (const groupName in groupedMenu) {
+                    const group = groupedMenu[groupName];
+                    const card = document.createElement('div');
+                    card.className = 'bg-white border border-slate-200 rounded-xl shadow-sm transition-all hover:shadow-md flex flex-col p-4';
+                    
+                    let content = `
+                        <img src="${group.image}" alt="${groupName}" class="menu-item-img w-full h-40 object-cover rounded-lg mb-3 cursor-pointer" data-group-name="${groupName}">
+                        <div class="flex-grow">
+                            <p class="font-semibold text-slate-800 text-lg">${groupName}</p>`;
+
+                    if (group.items.length === 1) {
+                        const item = group.items[0];
+                        content += `<p class="text-slate-700 font-bold">${formatRupiah(item.price)}</p></div>
+                            <div class="mt-4">
+                                <button class="add-to-cart-btn w-full bg-amber-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600" data-id="${item.id}">Tambah</button>
+                            </div>`;
+                    } else {
+                        content += `<p class="text-sm text-slate-500">Pilih varian:</p></div><div class="mt-3 space-y-2">`;
+                        group.items.forEach(item => {
+                            const variantName = item.name.replace(groupName, '').replace('()', '').trim();
+                            content += `<div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-700">${variantName}</p>
+                                        <p class="text-sm font-bold text-slate-700">${formatRupiah(item.price)}</p>
+                                    </div>
+                                    <button class="add-to-cart-btn text-sm bg-amber-100 text-amber-800 font-semibold py-1 px-3 rounded-full hover:bg-amber-200" data-id="${item.id}">Tambah</button>
+                                </div>`;
+                        });
+                        content += `</div>`;
+                    }
+                    card.innerHTML = content;
+                    menuListContainer.appendChild(card);
+                }
+            }
+            
+            function renderFilters() {
+                const categories = ['Semua', ...new Set(allMenuData.map(item => item.category))];
+                filterContainer.innerHTML = '';
+                categories.forEach(category => {
+                    const button = document.createElement('button');
+                    button.className = 'filter-btn px-4 py-1.5 bg-slate-200 text-slate-700 rounded-full text-sm';
+                    button.textContent = category;
+                    button.dataset.category = category;
+                    if (category === 'Semua') {
+                        button.classList.add('active');
+                    }
+                    filterContainer.appendChild(button);
+                });
+            }
+
+            function renderCart() {
+                cartItemsContainer.innerHTML = ''; 
+                if (shoppingCart.length === 0) {
+                    cartItemsContainer.appendChild(cartEmptyMsg);
+                    cartEmptyMsg.style.display = 'block';
+                } else {
+                    cartEmptyMsg.style.display = 'none';
+                    shoppingCart.forEach(item => {
+                        const cartItemElement = document.createElement('div');
+                        cartItemElement.className = 'cart-item';
+                        cartItemElement.innerHTML = `
+                            <div class="cart-item-details">
+                                <p class="font-semibold text-slate-800 text-sm">${item.name}</p>
+                                <p class="text-xs text-slate-600">${formatRupiah(item.price)}</p>
+                            </div>
+                            <div class="cart-item-actions">
+                                <button class="quantity-btn decrease-qty" data-id="${item.id}">-</button>
+                                <span class="mx-3 font-bold text-slate-800">${item.quantity}</span>
+                                <button class="quantity-btn increase-qty" data-id="${item.id}">+</button>
+                            </div>`;
+                        cartItemsContainer.appendChild(cartItemElement);
+                    });
+                }
+                updateTotalPriceAndButtons();
+            }
+
+            function updateTotalPriceAndButtons() {
+                const total = shoppingCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                totalPriceDisplay.innerText = formatRupiah(total);
+                document.querySelectorAll('.send-order-btn').forEach(button => button.disabled = shoppingCart.length === 0);
+            }
+
+            // --- MODAL FUNCTIONS ---
+            function openModal(modal) {
+                modal.classList.add('visible');
+            }
+            function closeModal(modal) {
+                modal.classList.remove('visible');
+            }
+
+            // --- EVENT HANDLING ---
+            menuListContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-to-cart-btn')) {
+                    const button = e.target;
+                    const itemId = button.dataset.id;
+                    const itemData = allMenuData.find(item => item.id === itemId);
+                    if (!itemData) return;
+                    const existingItem = shoppingCart.find(item => item.id === itemId);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        shoppingCart.push({ ...itemData, quantity: 1 });
+                    }
+                    button.innerHTML = 'Ditambahkan!';
+                    setTimeout(() => { button.innerHTML = 'Tambah'; }, 1000);
+                    renderCart();
+                }
+                if (e.target.classList.contains('menu-item-img')) {
+                    const groupName = e.target.dataset.groupName;
+                    const itemData = allMenuData.find(item => (item.group || item.name) === groupName);
+                    document.getElementById('detail-modal-img').src = itemData.image;
+                    document.getElementById('detail-modal-name').textContent = groupName;
+                    document.getElementById('detail-modal-desc').textContent = itemData.desc;
+                    openModal(itemDetailModal);
+                }
+            });
+
+            cartItemsContainer.addEventListener('click', function(e) {
+                const target = e.target;
+                if (!target.classList.contains('quantity-btn')) return;
+                const itemId = target.dataset.id;
+                const itemInCartIndex = shoppingCart.findIndex(item => item.id === itemId);
+                if (itemInCartIndex === -1) return;
+                if (target.classList.contains('increase-qty')) {
+                    shoppingCart[itemInCartIndex].quantity++;
+                } else if (target.classList.contains('decrease-qty')) {
+                    shoppingCart[itemInCartIndex].quantity--;
+                    if (shoppingCart[itemInCartIndex].quantity <= 0) {
+                        shoppingCart.splice(itemInCartIndex, 1);
+                    }
+                }
+                renderCart();
+            });
+
+            clearCartBtn.addEventListener('click', () => {
+                if (shoppingCart.length > 0) {
+                    shoppingCart = [];
+                    renderCart();
+                }
+            });
+
+            orderButtonsContainer.addEventListener('click', function(e) {
+                const button = e.target.closest('.send-order-btn');
+                if (!button) return;
+
+                let isFormValid = true;
+                // Variabel untuk menyimpan input pertama yang kosong
+                let firstInvalidField = null; 
+
+                [customerNameInput, customerAddressInput].forEach(input => {
+                    input.classList.remove('validation-error');
+                    if (!input.value.trim()) {
+                        input.classList.add('validation-error');
+                        isFormValid = false;
+                        
+                        // Simpan referensi ke input pertama yang kosong
+                        if (!firstInvalidField) { 
+                            firstInvalidField = input;
+                        }
+                    }
+                });
+
+                if (!isFormValid) {
+                    // Jika ada input yang tidak valid, scroll ke input tersebut
+                    if (firstInvalidField) {
+                        firstInvalidField.scrollIntoView({
+                            behavior: 'smooth', // Animasi scroll halus
+                            block: 'center'     // Posisikan input di tengah layar
+                        });
+                    }
+
+                    // Tampilkan modal peringatan (seperti sebelumnya)
+                    openModal(confirmModal);
+                    confirmModal.querySelector('h3').textContent = "Data Tidak Lengkap";
+                    confirmModal.querySelector('p').textContent = "Harap isi Nama dan Alamat Anda sebelum memesan.";
+                    confirmOrderBtn.style.display = 'none';
+                    cancelOrderBtn.textContent = 'Mengerti';
+                    return;
+                }
+
+                currentAdminIndex = parseInt(button.dataset.adminIndex);
+                openModal(confirmModal);
+                confirmModal.querySelector('h3').textContent = "Konfirmasi Pesanan";
+                confirmModal.querySelector('p').textContent = "Apakah Anda yakin dengan pesanan ini dan ingin melanjutkannya ke WhatsApp?";
+                confirmOrderBtn.style.display = 'inline-flex';
+                cancelOrderBtn.textContent = 'Batal';
+            });
+
+            
+            confirmOrderBtn.addEventListener('click', () => {
+                 const designatedAdminNumber = WHATSAPP_NUMBERS[currentAdminIndex];
+                let message = `Halo, saya mau pesan atas nama:\n\n*Nama:* ${customerNameInput.value.trim()}\n*Alamat:* ${customerAddressInput.value.trim()}\n\n*Pesanan:*\n`;
+                shoppingCart.forEach(item => {
+                    message += `\n- *${item.name}* (Qty: ${item.quantity}) - ${formatRupiah(item.price * item.quantity)}`;
+                });
+                const notes = notesInput.value.trim();
+                message += `\n\n*Catatan:* ${notes || '-'}\n\n*TOTAL HARGA: ${totalPriceDisplay.innerText}*`;
+                message += `\n\nTerima kasih. Mohon konfirmasi pesanannya.`;
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/${designatedAdminNumber}?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+                closeModal(confirmModal);
+            });
+
+            // Search and Filter Logic
+            searchInput.addEventListener('input', handleSearchAndFilter);
+            filterContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    handleSearchAndFilter();
+                }
+            });
+
+            function handleSearchAndFilter() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+                
+                const filteredItems = allMenuData.filter(item => {
+                    const matchesCategory = activeCategory === 'Semua' || item.category === activeCategory;
+                    const matchesSearch = item.name.toLowerCase().includes(searchTerm) || (item.group && item.group.toLowerCase().includes(searchTerm));
+                    return matchesCategory && matchesSearch;
+                });
+                
+                renderMenu(filteredItems);
+            }
+
+            // Close Modals
+            closeDetailModalBtn.addEventListener('click', () => closeModal(itemDetailModal));
+            cancelOrderBtn.addEventListener('click', () => closeModal(confirmModal));
+            itemDetailModal.addEventListener('click', (e) => { if (e.target === itemDetailModal) closeModal(itemDetailModal); });
+            confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) closeModal(confirmModal); });
+
+
+            // --- INITIALIZATION ---
+            renderFilters();
+            renderMenu();
+            renderCart();
+        });
+    </script>
+</body>
+
+</html>
+
