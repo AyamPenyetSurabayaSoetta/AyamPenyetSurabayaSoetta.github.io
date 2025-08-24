@@ -599,6 +599,17 @@
             renderCart();
         });
     </script>
+<script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('Service Worker Menu Online berhasil didaftarkan:', registration);
+          }).catch(error => {
+            console.log('Pendaftaran Service Worker Menu Online gagal:', error);
+          });
+        });
+      }
+    </script>
 </body>
 
 </html>
