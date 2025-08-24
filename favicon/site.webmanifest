@@ -1,21 +1,21 @@
 {
-  "name": "Menu Online",
-  "short_name": "Ayam Penyet ",
+  "name": "Menu Online APS",
+  "short_name": "Menu APS",
+  "description": "Menu online untuk pelanggan Ayam Penyet Surabaya Soetta.",
+  "start_url": "../index.html",
+  "display": "standalone",
+  "background_color": "#fffbeb",
+  "theme_color": "#fde68a",
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
-      "sizes": "192x192",
+      "src": "web-app-manifest-192x192.png",
       "type": "image/png",
-      "purpose": "maskable"
+      "sizes": "192x192"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
-      "sizes": "512x512",
+      "src": "web-app-manifest-512x512.png",
       "type": "image/png",
-      "purpose": "maskable"
+      "sizes": "512x512"
     }
-  ],
-  "theme_color": "#efaa2a",
-  "background_color": "#996300",
-  "display": "standalone"
+  ]
 }
