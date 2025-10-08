@@ -1,0 +1,172 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-image: linear-gradient(to top, #fffbeb, #fde68a);
+  background-attachment: fixed;
+  padding-bottom: 100px;
+}
+
+#cart-section {
+  position: sticky;
+  top: 2rem;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+  margin-right: 0.5rem;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9999px;
+  font-weight: 700;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover {
+  background-color: #f59e0b;
+  color: white;
+  border-color: #f59e0b;
+}
+
+.validation-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 1px 0 0 #ef4444;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  transform: scale(0.95);
+  transition: transform 0.3s;
+}
+
+.modal-overlay.visible .modal-container {
+  transform: scale(1);
+}
+
+.filter-btn {
+  transition: all 0.2s;
+}
+
+/* MODIFIKASI DI SINI */
+.filter-btn.active {
+  background-color: #92400e !important;
+  /* Diberi !important untuk memastikan override */
+  color: white !important;
+  /* Diberi !important untuk memastikan override */
+  font-weight: 600;
+  border-color: #92400e;
+}
+
+.recommendation-slider {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.recommendation-slider .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 240px;
+  /* Lebar setiap kartu slide */
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.recommendation-slider .swiper-slide:not(.swiper-slide-active) {
+  transform: scale(0.9);
+  opacity: 0.6;
+}
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  --swiper-navigation-color: transparent;
+  width: 44px;
+  /* Lebar tombol */
+  height: 44px;
+  /* Tinggi tombol */
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Latar belakang putih semi-transparan */
+  border-radius: 50%;
+  /* Membuatnya menjadi lingkaran */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  /* Memberi efek bayangan agar terangkat */
+  transition: all 0.2s ease-in-out;
+  /* Animasi halus untuk hover */
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  content: '';
+}
+
+.swiper-button-next {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2344403c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-right'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+
+.swiper-button-prev {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2344403c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-left'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #ffffff;
+  /* Latar belakang menjadi putih solid */
+  transform: scale(1.1);
+  /* Tombol sedikit membesar */
+}

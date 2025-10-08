@@ -14,7 +14,7 @@ const URLS_TO_CACHE = [
   'favicon/favicon-96x96.png',
   'favicon/web-app-manifest-192x192.png',
   'favicon/web-app-manifest-512x512.png',
-
+  
   // File eksternal (CDN) yang digunakan
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
