@@ -1,8 +1,3 @@
-// js/main.js
-// Ini adalah file utama yang mengatur alur kerja aplikasi.
-
-// --- IMPORTS ---
-// Mengimpor data dan fungsi dari file lain.
 import { WHATSAPP_NUMBERS } from './config.js';
 import { allMenuData } from './data.js';
 import {
@@ -115,35 +110,42 @@ function renderRecommendationSlideshow() {
   }
   
   // --- EVENT HANDLING ---
-  // Menangani semua interaksi dari pengguna.
-  
-  // Klik pada daftar menu (tambah ke keranjang atau lihat detail)
-  menuListContainer.addEventListener('click', function(e) {
-    if (e.target.classList.contains('add-to-cart-btn')) {
-      const button = e.target;
-      const itemId = button.dataset.id;
-      const itemData = allMenuData.find(item => item.id === itemId);
-      if (!itemData) return;
-      const existingItem = shoppingCart.find(item => item.id === itemId);
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        shoppingCart.push({ ...itemData, quantity: 1 });
-      }
-      button.innerHTML = '✓';
-      setTimeout(() => { button.innerHTML = 'Tambah'; }, 1000);
-      updateCartUI();
-      saveCartToLocalStorage();
+
+document.addEventListener('click', function(e) {
+  // Cek apakah yang diklik adalah tombol 'Tambah'
+  if (e.target.classList.contains('add-to-cart-btn')) {
+    const button = e.target;
+    const itemId = button.dataset.id;
+    const itemData = allMenuData.find(item => item.id === itemId);
+    if (!itemData) return;
+    
+    const existingItem = shoppingCart.find(item => item.id === itemId);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      shoppingCart.push({ ...itemData, quantity: 1 });
     }
-    if (e.target.classList.contains('menu-item-img')) {
-      const groupName = e.target.dataset.groupName;
-      const itemData = allMenuData.find(item => (item.group || item.name) === groupName);
+    
+    // Beri feedback visual ke pengguna
+    button.innerHTML = '✓';
+    setTimeout(() => { button.innerHTML = 'Tambah'; }, 1000);
+    
+    updateCartUI();
+    saveCartToLocalStorage();
+  }
+  
+  // Cek apakah yang diklik adalah gambar di menu utama untuk lihat detail
+  if (e.target.classList.contains('menu-item-img')) {
+    const groupName = e.target.dataset.groupName;
+    const itemData = allMenuData.find(item => (item.group || item.name) === groupName);
+    if (itemData) { // Pastikan itemData ditemukan sebelum membuka modal
       document.getElementById('detail-modal-img').src = itemData.image;
       document.getElementById('detail-modal-name').textContent = groupName;
       document.getElementById('detail-modal-desc').textContent = itemData.desc;
       openModal(itemDetailModal);
     }
-  });
+  }
+});
   
   // Klik di dalam keranjang (tambah/kurang jumlah)
   cartItemsContainer.addEventListener('click', function(e) {
