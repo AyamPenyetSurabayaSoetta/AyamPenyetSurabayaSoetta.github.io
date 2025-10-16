@@ -396,3 +396,26 @@ textarea:focus {
 .quantity-input {
   -moz-appearance: textfield;
 }
+/* style/css/style.css */
+
+/* === MEMBUAT TOMBOL KATEGORI BISA DI-SCROLL === */
+#filter-container {
+  flex-wrap: nowrap;     /* 1. Mencegah tombol turun ke baris baru */
+  overflow-x: auto;      /* 2. Mengaktifkan scroll horizontal */
+  -webkit-overflow-scrolling: touch; /* 3. Scrolling lebih mulus di iPhone/iPad */
+  padding-bottom: 1rem;  /* 4. Memberi ruang di bawah agar bayangan tidak terpotong */
+}
+
+/* 5. (Opsional) Menyembunyikan scrollbar agar terlihat bersih */
+#filter-container::-webkit-scrollbar {
+  display: none; /* Untuk browser Chrome, Safari */
+}
+#filter-container {
+  -ms-overflow-style: none;  /* Untuk browser IE, Edge */
+  scrollbar-width: none;  /* Untuk browser Firefox */
+}
+
+/* 6. Mencegah tombol menyusut */
+#filter-container .filter-btn {
+    flex-shrink: 0;
+}
