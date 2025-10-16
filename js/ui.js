@@ -17,7 +17,7 @@ export function renderMenu(menuListContainer, noResultsMsg, itemsToRender) {
   for (const groupName in groupedMenu) {
     const group = groupedMenu[groupName];
     const card = document.createElement('div');
-    card.className = 'bg-white/60 border border-white/50 rounded-xl shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] flex flex-col p-4';
+    card.className = 'main-card transition-all hover:scale-[1.02] flex flex-col';
     let content = `
                     <img src="${group.image}" alt="${groupName}" class="menu-item-img w-full h-40 object-cover rounded-lg mb-4 cursor-pointer" data-group-name="${groupName}">
                     <div class="flex-grow">
@@ -74,6 +74,8 @@ export function renderFilters(filterContainer, allMenuData) {
   });
 }
 
+// js/ui.js
+
 export function renderCart(cartItemsContainer, cartEmptyMsg, shoppingCart) {
   cartItemsContainer.innerHTML = '';
   if (shoppingCart.length === 0) {
@@ -83,27 +85,49 @@ export function renderCart(cartItemsContainer, cartEmptyMsg, shoppingCart) {
     cartEmptyMsg.style.display = 'none';
     shoppingCart.forEach(item => {
       const cartItemElement = document.createElement('div');
-      cartItemElement.className = 'cart-item';
-      cartItemElement.innerHTML = `
-                        <div class="cart-item-details">
-                            <p class="font-semibold text-slate-800 text-sm">${item.name}</p>
-                            <p class="text-xs text-slate-600">${formatRupiah(item.price)}</p>
-                        </div>
-                        <div class="cart-item-actions">
-                            <button class="quantity-btn decrease-qty" data-id="${item.id}">-</button>
-                            <span class="mx-3 w-6 text-center font-bold text-slate-800">${item.quantity}</span>
-                            <button class="quantity-btn increase-qty" data-id="${item.id}">+</button>
-                        </div>`;
+      // Struktur HTML baru untuk setiap item di keranjang
+      cartItemElement.className = 'cart-item-card';
+      // Kode BARU
+cartItemElement.innerHTML = `
+    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+    <div class="cart-item-details">
+        <p class="font-semibold text-slate-800 text-sm truncate">${item.name}</p>
+        <p class="text-xs text-slate-600">${formatRupiah(item.price)} x ${item.quantity}</p>
+    </div>
+    <div class="cart-item-actions">
+        <button class="quantity-btn decrease-qty" data-id="${item.id}">-</button>
+        <input type="number" class="quantity-input text-center font-bold bg-transparent" value="${item.quantity}" data-id="${item.id}" min="1">
+        <button class="quantity-btn increase-qty" data-id="${item.id}">+</button>
+        <button class="remove-item-btn" data-id="${item.id}" title="Hapus Item">&times;</button>
+    </div>`;
       cartItemsContainer.appendChild(cartItemElement);
     });
   }
 }
 
+// js/ui.js
+
 export function updateTotalPriceAndButtons(totalPriceDisplay, floatingCartTotal, floatingCartContainer, shoppingCart) {
+  // Menghitung total harga
   const total = shoppingCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const formattedTotal = formatRupiah(total);
+  
+  // Menghitung jumlah total item (bukan jenis item)
+  const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // Memperbarui tampilan harga
+  const subtotalDisplay = document.getElementById('subtotal-price-display');
+  if (subtotalDisplay) subtotalDisplay.innerText = formattedTotal;
   totalPriceDisplay.innerText = formattedTotal;
+  
+  // Memperbarui judul keranjang dengan jumlah item
+  const cartHeaderTitle = document.querySelector('#cart-header h2');
+  if (cartHeaderTitle) cartHeaderTitle.textContent = `Keranjang (${totalItems} item)`;
+  
+  // Mengatur tombol order
   document.querySelectorAll('.send-order-btn').forEach(button => button.disabled = shoppingCart.length === 0);
+  
+  // Mengatur floating cart
   if (shoppingCart.length > 0) {
     floatingCartTotal.innerText = formattedTotal;
     floatingCartContainer.classList.remove('hidden');

@@ -1,4 +1,3 @@
-
 /* === PALET WARNA BARU === */
 :root {
   --bg-dark-teal: #0B3B3C;
@@ -16,32 +15,37 @@ body {
   color: var(--card-cream);
 }
 
-/* === GAYA KARTU UTAMA === */
+/* === GAYA KARTU UTAMA (UNTUK FORM & KERANJANG) === */
 .main-card {
   background-color: var(--card-cream);
   color: var(--text-dark);
-  border-radius: 1rem; /* 16px */
-  padding: 2rem; /* 32px */
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  /* 16px */
+  padding: 1.5rem;
+  /* 24px */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 /* === HEADER BARU === */
 .new-header {
-    background-color: var(--card-cream);
-    color: var(--text-dark);
-    border: 3px solid var(--accent-gold);
-}
-.new-header img {
-    border-color: var(--accent-gold);
-}
-.new-header h1 {
-    color: var(--bg-dark-teal);
-    font-weight: 800; /* Extra bold */
-}
-.new-header p {
-    color: var(--text-light);
+  background-color: var(--card-cream);
+  color: var(--text-dark);
+  border: 3px solid var(--accent-gold);
 }
 
+.new-header img {
+  border-color: var(--accent-gold);
+}
+
+.new-header h1 {
+  color: var(--bg-dark-teal);
+  font-weight: 800;
+  /* Extra bold */
+}
+
+.new-header p {
+  color: var(--text-light);
+}
 
 /* === TAB DAN FORMULIR === */
 .tab-btn {
@@ -50,151 +54,262 @@ body {
   transition: all 0.2s ease-in-out;
   padding: 0.5rem 1rem;
 }
+
 .tab-btn.active {
   border-bottom-color: var(--accent-gold);
   color: var(--accent-gold);
   font-weight: 600;
 }
+
 .tab-pane {
   animation: fadeIn 0.5s;
 }
-input[type="text"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], textarea {
-    background-color: #fff;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem; /* 8px */
-    padding: 0.75rem 1rem;
-    transition: all 0.2s ease;
-    color: var(--text-dark);
+
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea {
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  /* gray-300 */
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+  color: var(--text-dark);
+  /* Memastikan teks input selalu gelap */
 }
-input:focus, textarea:focus {
-    outline: none;
-    border-color: var(--accent-gold);
-    box-shadow: 0 0 0 2px rgba(197, 160, 91, 0.3);
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 2px rgba(197, 160, 91, 0.3);
 }
+
 .validation-error {
-  border-color: #ef4444 !important; /* red-500 */
+  border-color: #ef4444 !important;
 }
-.date-time-input.has-value + .placeholder-text,
-.date-time-input:focus + .placeholder-text {
+
+.date-time-input.has-value+.placeholder-text,
+.date-time-input:focus+.placeholder-text {
   opacity: 0;
 }
 
 .date-time-input {
-    color: transparent; /* Sembunyikan teks default browser */
+  color: transparent;
 }
+
 .date-time-input.has-value {
-    color: var(--text-dark); /* Tampilkan teks saat sudah ada isinya */
+  color: var(--text-dark);
 }
 
 /* === DAFTAR MENU === */
 .menu-card {
-    background-color: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
 }
+
 .menu-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* === TOMBOL (BUTTONS) === */
 .add-to-cart-btn {
-    background-color: var(--accent-gold);
-    color: var(--bg-dark-teal);
-    font-weight: 600;
-    border-radius: 9999px;
-    padding: 0.25rem 0.75rem;
-    transition: background-color 0.2s;
+  background-color: var(--accent-gold);
+  color: var(--bg-dark-teal);
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  transition: background-color 0.2s;
 }
+
 .add-to-cart-btn:hover {
-    background-color: #b08f4c; /* Darker gold */
+  background-color: #b08f4c;
 }
-.send-order-btn, #open-reservation-modal-btn, #confirm-order-btn, #send-reservation-btn {
-    background-color: var(--accent-gold);
-    color: var(--bg-dark-teal);
-    font-weight: 700;
-    padding: 0.8rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
+
+.send-order-btn,
+#open-reservation-modal-btn,
+#confirm-order-btn,
+#send-reservation-btn {
+  background-color: var(--accent-gold);
+  color: var(--bg-dark-teal);
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
 }
-.send-order-btn:hover, #open-reservation-modal-btn:hover, #confirm-order-btn:hover, #send-reservation-btn:hover {
-    background-color: #b08f4c;
-    transform: scale(1.03);
+
+.send-order-btn:hover,
+#open-reservation-modal-btn:hover,
+#confirm-order-btn:hover,
+#send-reservation-btn:hover {
+  background-color: #b08f4c;
+  transform: scale(1.03);
 }
+
 .send-order-btn:disabled {
-    opacity: 0.5;
-    transform: scale(1);
+  opacity: 0.5;
+  transform: scale(1);
+}
+
+/* === GAYA KERANJANG BARU (DIPERBAIKI) === */
+.cart-item-card {
+  display: flex;
+  align-items: center;
+  /* Membuat semua item sejajar vertikal */
+  gap: 0.75rem;
+  /* Mengurangi jarak antar elemen */
+  background-color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+}
+
+.cart-item-img {
+  width: 50px;
+  /* Sedikit perkecil gambar */
+  height: 50px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  /* PENTING: Mencegah gambar menyusut */
+}
+
+.cart-item-details {
+  flex-grow: 1;
+  /* Membuat bagian detail mengisi ruang kosong */
+  min-width: 0;
+  /* Membantu teks untuk wrap dengan benar */
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  /* Mencegah tombol menyusut */
+}
+
+.cart-item-actions .quantity-btn,
+.cart-item-actions .remove-item-btn {
+  width: 30px;
+  /* Sedikit perkecil tombol */
+  height: 30px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background-color: transparent;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  /* Sesuaikan ukuran ikon */
+  transition: background-color 0.2s;
+}
+
+.cart-item-actions .quantity-btn:hover,
+.cart-item-actions .remove-item-btn:hover {
+  background-color: #f1f5f9;
+}
+
+.remove-item-btn {
+  font-size: 1.4rem;
+  line-height: 1;
 }
 
 /* === FILTER MENU === */
+
 .filter-btn {
-    background-color: #fff;
-    border: 1px solid var(--border-color);
-    color: var(--text-light);
-}
-.filter-btn.active {
-    background-color: var(--accent-gold);
-    color: var(--bg-dark-teal);
-    border-color: var(--accent-gold);
+  background-color: var(--card-cream);
+  /* Latar belakang krem solid */
+  border: 1px solid var(--accent-gold);
+  /* Border emas agar serasi */
+  color: var(--text-dark);
+  /* Teks gelap agar terbaca */
+  transition: background-color 0.2s;
 }
 
-/* === KERANJANG (CART) === */
+.filter-btn:hover {
+  background-color: #fff;
+  /* Efek hover menjadi putih */
+}
+
+/* Biarkan .filter-btn.active seperti ini, sudah bagus */
+.filter-btn.active {
+  background-color: var(--accent-gold);
+  color: var(--bg-dark-teal);
+  border-color: var(--accent-gold);
+}
+
+/* === TOTAL HARGA & FLOATING CART === */
 #total-price-display {
-    color: var(--accent-gold);
-    font-weight: 800;
+  color: var(--accent-gold);
+  font-weight: 800;
 }
-.quantity-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: var(--border-color);
-    color: var(--text-dark);
-}
+
 #floating-cart-btn {
-    background: var(--accent-gold);
-    color: var(--bg-dark-teal);
-    font-weight: 700;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  background: var(--accent-gold);
+  color: var(--bg-dark-teal);
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* === MODAL === */
 .modal-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(10, 25, 30, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 25, 30, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
 }
+
 .modal-overlay.visible {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
+
 .modal-container {
-    background-color: var(--card-cream);
-    color: var(--text-dark);
-    padding: 2rem;
-    border-radius: 1rem;
-    width: 90%;
-    max-width: 500px;
-    transform: scale(0.95);
-    transition: transform 0.3s ease-in-out;
+  background-color: var(--card-cream);
+  color: var(--text-dark);
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 500px;
+  transform: scale(0.95);
+  transition: transform 0.3s ease-in-out;
 }
+
 .modal-overlay.visible .modal-container {
-    transform: scale(1);
+  transform: scale(1);
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* === SLIDESHOW REKOMENDASI === */
 .recommendation-slider {
   width: 100%;
   padding-top: 20px;
@@ -205,7 +320,6 @@ input:focus, textarea:focus {
   background-position: center;
   background-size: cover;
   width: 240px;
-  /* Lebar setiap kartu slide */
   height: auto;
   transition: transform 0.4s ease;
 }
@@ -215,22 +329,15 @@ input:focus, textarea:focus {
   opacity: 0.6;
 }
 
-
 .swiper-button-next,
 .swiper-button-prev {
   --swiper-navigation-color: transparent;
   width: 44px;
-  /* Lebar tombol */
   height: 44px;
-  /* Tinggi tombol */
   background-color: rgba(255, 255, 255, 0.9);
-  /* Latar belakang putih semi-transparan */
   border-radius: 50%;
-  /* Membuatnya menjadi lingkaran */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  /* Memberi efek bayangan agar terangkat */
   transition: all 0.2s ease-in-out;
-  /* Animasi halus untuk hover */
 }
 
 .swiper-button-next:after,
@@ -255,7 +362,37 @@ input:focus, textarea:focus {
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background-color: #ffffff;
-  /* Latar belakang menjadi putih solid */
   transform: scale(1.1);
-  /* Tombol sedikit membesar */
+}
+
+/* === GAYA UNTUK INPUT JUMLAH DI KERANJANG === */
+.quantity-input {
+  width: 50px;
+  /* TAMBAHKAN INI: Batasi lebar input */
+  height: 40px;
+  border: 1px solid #cbd5e1;
+  /* slate-300 */
+  border-radius: 6px;
+  padding: 2px 4px;
+  color: var(--text-dark);
+  text-align: center;
+  /* TAMBAHKAN INI: Pastikan angka di tengah */
+  font-size: 0.9rem;
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 2px rgba(197, 160, 91, 0.3);
+}
+
+/* Menghilangkan tombol panah atas/bawah bawaan browser */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-input {
+  -moz-appearance: textfield;
 }
