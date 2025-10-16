@@ -1,7 +1,3 @@
-// js/ui.js
-// File ini berisi semua fungsi yang berkaitan dengan User Interface (UI).
-
-// --- FUNGSI-FUNGSI TAMPILAN (RENDER & UPDATE) ---
 
 export function formatRupiah(number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);

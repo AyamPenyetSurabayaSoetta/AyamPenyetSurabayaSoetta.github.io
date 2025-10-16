@@ -13,12 +13,10 @@ import {
 // Menjalankan kode setelah semua elemen HTML dimuat
 document.addEventListener('DOMContentLoaded', function() {
   // --- STATE MANAGEMENT ---
-  // State adalah data yang bisa berubah seiring interaksi pengguna.
   let shoppingCart = [];
   let currentAdminIndex = 0;
   
   // --- SELECTORS ---
-  // Memilih semua elemen HTML yang kita butuhkan.
   const menuListContainer = document.getElementById('menu-list');
   const noResultsMsg = document.getElementById('no-results');
   const cartItemsContainer = document.getElementById('cart-items');
@@ -41,6 +39,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const floatingCartContainer = document.getElementById('floating-cart-container');
   const floatingCartBtn = document.getElementById('floating-cart-btn');
   const floatingCartTotal = document.getElementById('floating-cart-total');
+  const tabDeliveryBtn = document.getElementById('tab-delivery');
+const tabReservationBtn = document.getElementById('tab-reservation');
+const deliveryForm = document.getElementById('delivery-form');
+const reservationForm = document.getElementById('reservation-form');
+const openReservationModalBtn = document.getElementById('open-reservation-modal-btn');
+const reservationModal = document.getElementById('reservation-modal');
+const closeReservationModalBtn = document.getElementById('close-reservation-modal-btn');
+const cancelReservationBtn = document.getElementById('cancel-reservation-btn');
+const sendReservationBtn = document.getElementById('send-reservation-btn');
   // --- FUNGSI UNTUK LOCAL STORAGE ---
 function saveCartToLocalStorage() {
   localStorage.setItem('savedAPSMenuCart', JSON.stringify(shoppingCart));
@@ -60,10 +67,10 @@ function checkForSavedCart() {
     
     // Event saat tombol "Ya, Muat Lagi" diklik
     restoreBtn.addEventListener('click', () => {
-      shoppingCart = savedCart; // Ganti keranjang saat ini dengan yang tersimpan
-      updateCartUI(); // Perbarui tampilan
-      saveCartToLocalStorage(); // Simpan lagi untuk konsistensi
-      banner.classList.add('hidden'); // Sembunyikan banner
+      shoppingCart = savedCart;
+      updateCartUI();
+      saveCartToLocalStorage();
+      banner.classList.add('hidden');
     });
     
     // Event saat tombol "Tutup" (X) diklik
@@ -258,7 +265,85 @@ document.addEventListener('click', function(e) {
   floatingCartBtn.addEventListener('click', () => {
     document.getElementById('cart-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+  // EVENT HANDLING BARU UNTUK TAB DAN RESERVASI
+// Mengganti tab
+tabDeliveryBtn.addEventListener('click', () => {
+  tabDeliveryBtn.classList.add('active');
+  tabReservationBtn.classList.remove('active');
+  deliveryForm.classList.remove('hidden');
+  reservationForm.classList.add('hidden');
+});
+
+tabReservationBtn.addEventListener('click', () => {
+  tabReservationBtn.classList.add('active');
+  tabDeliveryBtn.classList.remove('active');
+  reservationForm.classList.remove('hidden');
+  deliveryForm.classList.add('hidden');
+});
+
+// Membuka dan menutup modal reservasi
+openReservationModalBtn.addEventListener('click', () => openModal(reservationModal));
+closeReservationModalBtn.addEventListener('click', () => closeModal(reservationModal));
+cancelReservationBtn.addEventListener('click', () => closeModal(reservationModal));
+reservationModal.addEventListener('click', (e) => {
+  if (e.target === reservationModal) closeModal(reservationModal);
+});
+
+// Mengirim data reservasi ke WhatsApp
+sendReservationBtn.addEventListener('click', () => {
+  const name = document.getElementById('reservation-name').value.trim();
+  const whatsapp = document.getElementById('reservation-whatsapp').value.trim();
+  const pax = document.getElementById('reservation-pax').value.trim();
+  const date = document.getElementById('reservation-date').value;
+  const time = document.getElementById('reservation-time').value.trim();
+  // 1. Ambil nilai dari kolom catatan
+  const notes = document.getElementById('reservation-notes').value.trim();
   
+  // Catatan tidak wajib diisi, jadi tidak perlu divalidasi
+  if (!name || !whatsapp || !pax || !date || !time) {
+    alert('Harap isi semua kolom formulir reservasi!');
+    return;
+  }
+  
+  const formattedDate = date ? date.split('-').reverse().join('-') : 'Tidak diisi';
+  let message = `Halo, saya mau reservasi tempat atas nama:\n\n` +
+    `*Nama:* ${name}\n` +
+    `*No. WhatsApp:* ${whatsapp}\n` +
+    `*Jumlah Orang:* ${pax} orang\n` +
+    `*Tanggal:* ${formattedDate}\n` +
+    `*Jam:* ${time}\n`;
+  
+  // 2. Tambahkan catatan ke pesan jika ada isinya
+  if (notes) {
+    message += `*Catatan:* ${notes}\n`;
+  }
+  
+  message += `\nMohon konfirmasi ketersediaan tempat. Terima kasih.`;
+  
+  const designatedAdminNumber = WHATSAPP_NUMBERS[0]; // Kirim ke Admin 1
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/${designatedAdminNumber}?text=${encodedMessage}`;
+  
+  window.open(whatsappUrl, '_blank');
+  closeModal(reservationModal);
+});
+// Menangani placeholder untuk input tanggal dan jam
+document.querySelectorAll('.date-time-input').forEach(input => {
+  // Fungsi untuk memeriksa dan mengatur kelas
+  const checkValue = () => {
+    if (input.value) {
+      input.classList.add('has-value');
+    } else {
+      input.classList.remove('has-value');
+    }
+  };
+  
+  // Periksa saat halaman dimuat (jika ada nilai dari browser)
+  checkValue();
+  
+  // Periksa setiap kali nilainya berubah
+  input.addEventListener('change', checkValue);
+});
   // --- INITIALIZATION ---
   // Menyiapkan tampilan awal saat halaman dimuat.
 // --- INITIALIZATION ---

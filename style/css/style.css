@@ -1,109 +1,198 @@
+
+/* === PALET WARNA BARU === */
+:root {
+  --bg-dark-teal: #0B3B3C;
+  --card-cream: #f3efe4;
+  --accent-gold: #c5a05b;
+  --text-dark: #3a352f;
+  --text-light: #6b6358;
+  --border-color: #e0d9cb;
+}
+
+/* === GAYA DASAR === */
 body {
   font-family: 'Inter', sans-serif;
-  background-image: linear-gradient(to top, #fffbeb, #fde68a);
-  background-attachment: fixed;
-  padding-bottom: 100px;
+  background-color: var(--bg-dark-teal);
+  color: var(--card-cream);
 }
 
-#cart-section {
-  position: sticky;
-  top: 2rem;
+/* === GAYA KARTU UTAMA === */
+.main-card {
+  background-color: var(--card-cream);
+  color: var(--text-dark);
+  border-radius: 1rem; /* 16px */
+  padding: 2rem; /* 32px */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e5e7eb;
+/* === HEADER BARU === */
+.new-header {
+    background-color: var(--card-cream);
+    color: var(--text-dark);
+    border: 3px solid var(--accent-gold);
+}
+.new-header img {
+    border-color: var(--accent-gold);
+}
+.new-header h1 {
+    color: var(--bg-dark-teal);
+    font-weight: 800; /* Extra bold */
+}
+.new-header p {
+    color: var(--text-light);
 }
 
-.cart-item:last-child {
-  border-bottom: none;
-}
 
-.cart-item-details {
-  flex-grow: 1;
-  margin-right: 0.5rem;
+/* === TAB DAN FORMULIR === */
+.tab-btn {
+  border-bottom: 3px solid transparent;
+  color: var(--text-light);
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem 1rem;
 }
-
-.cart-item-actions {
-  display: flex;
-  align-items: center;
-}
-
-.quantity-btn {
-  width: 28px;
-  height: 28px;
-  border: 1px solid #cbd5e1;
-  border-radius: 9999px;
-  font-weight: 700;
-  color: #475569;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.quantity-btn:hover {
-  background-color: #f59e0b;
-  color: white;
-  border-color: #f59e0b;
-}
-
-.validation-error {
-  border-color: #ef4444 !important;
-  box-shadow: 0 1px 0 0 #ef4444;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
-}
-
-.modal-overlay.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
-  transform: scale(0.95);
-  transition: transform 0.3s;
-}
-
-.modal-overlay.visible .modal-container {
-  transform: scale(1);
-}
-
-.filter-btn {
-  transition: all 0.2s;
-}
-
-/* MODIFIKASI DI SINI */
-.filter-btn.active {
-  background-color: #92400e !important;
-  /* Diberi !important untuk memastikan override */
-  color: white !important;
-  /* Diberi !important untuk memastikan override */
+.tab-btn.active {
+  border-bottom-color: var(--accent-gold);
+  color: var(--accent-gold);
   font-weight: 600;
-  border-color: #92400e;
+}
+.tab-pane {
+  animation: fadeIn 0.5s;
+}
+input[type="text"], input[type="tel"], input[type="number"], input[type="date"], input[type="time"], textarea {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem; /* 8px */
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    color: var(--text-dark);
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px rgba(197, 160, 91, 0.3);
+}
+.validation-error {
+  border-color: #ef4444 !important; /* red-500 */
+}
+.date-time-input.has-value + .placeholder-text,
+.date-time-input:focus + .placeholder-text {
+  opacity: 0;
+}
+
+.date-time-input {
+    color: transparent; /* Sembunyikan teks default browser */
+}
+.date-time-input.has-value {
+    color: var(--text-dark); /* Tampilkan teks saat sudah ada isinya */
+}
+
+/* === DAFTAR MENU === */
+.menu-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.2s ease-in-out;
+}
+.menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* === TOMBOL (BUTTONS) === */
+.add-to-cart-btn {
+    background-color: var(--accent-gold);
+    color: var(--bg-dark-teal);
+    font-weight: 600;
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    transition: background-color 0.2s;
+}
+.add-to-cart-btn:hover {
+    background-color: #b08f4c; /* Darker gold */
+}
+.send-order-btn, #open-reservation-modal-btn, #confirm-order-btn, #send-reservation-btn {
+    background-color: var(--accent-gold);
+    color: var(--bg-dark-teal);
+    font-weight: 700;
+    padding: 0.8rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+.send-order-btn:hover, #open-reservation-modal-btn:hover, #confirm-order-btn:hover, #send-reservation-btn:hover {
+    background-color: #b08f4c;
+    transform: scale(1.03);
+}
+.send-order-btn:disabled {
+    opacity: 0.5;
+    transform: scale(1);
+}
+
+/* === FILTER MENU === */
+.filter-btn {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+}
+.filter-btn.active {
+    background-color: var(--accent-gold);
+    color: var(--bg-dark-teal);
+    border-color: var(--accent-gold);
+}
+
+/* === KERANJANG (CART) === */
+#total-price-display {
+    color: var(--accent-gold);
+    font-weight: 800;
+}
+.quantity-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    color: var(--text-dark);
+}
+#floating-cart-btn {
+    background: var(--accent-gold);
+    color: var(--bg-dark-teal);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* === MODAL === */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(10, 25, 30, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-container {
+    background-color: var(--card-cream);
+    color: var(--text-dark);
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 500px;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+.modal-overlay.visible .modal-container {
+    transform: scale(1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .recommendation-slider {

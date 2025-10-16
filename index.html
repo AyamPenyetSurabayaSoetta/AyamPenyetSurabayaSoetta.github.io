@@ -25,20 +25,70 @@
     
     <div class="container mx-auto max-w-7xl py-8 px-4">
         
-        <div class="mb-8">
-            <img src="favicon/header-logo.jpg" alt="Ayam Penyet Surabaya" class="w-full h-48 md:h-64 object-cover rounded-2xl shadow-2xl shadow-amber-900/20">
+        <div class="mb-6">
+    <div class="new-header rounded-xl shadow-lg p-4 flex items-center space-x-4">
+        <img src="favicon/logo.jpg" alt="Logo APS" class="w-16 h-16 rounded-full border-4 border-white">
+        <div>
+            <h1 class="text-xl font-bold text-yellow-900">Ayam Penyet Surabaya • Soetta</h1>
+            <p class="text-sm text-yellow-800">Halal • Segar • Harga bersahabat</p>
         </div>
+    </div>
+</div>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             <div class="lg:col-span-2">
                 <div class="bg-white/80 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl shadow-black/10 p-6 md:p-8">
-                    <div class="text-center mb-10">
-                        <h1 class="text-4xl lg:text-5xl font-bold text-amber-900 tracking-tight">Ayam Penyet Surabaya Soetta</h1>
-                        <p class="text-slate-600 mt-3 text-lg">"Awali Hidup Yang Sehat Dengan Makanan Yang Halal"</p>
-                    </div>
-                    
                     <div class="bg-amber-50/50 border border-amber-200 rounded-xl p-5 mb-10">
+
+    <div class="flex border-b border-amber-200 mb-4">
+        <button id="tab-delivery" class="tab-btn active flex items-center gap-2 py-2 px-4 text-sm font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"/><path d="M14 9h4l4 4v4h-8v-4l4-4Z"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+            Pesan Antar
+        </button>
+        <button id="tab-reservation" class="tab-btn flex items-center gap-2 py-2 px-4 text-sm font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+            Reservasi
+        </button>
+    </div>
+
+    <div id="tab-content">
+        <div id="delivery-form" class="tab-pane active">
+            <p class="text-sm text-slate-600 mb-4">Lengkapi data untuk pesanan delivery.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                <div>
+                    <label for="customer-name" class="hidden">Nama Anda</label>
+                    <input type="text" id="customer-name" required placeholder="Nama Anda" class="w-full px-4 py-2 bg-white/70 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                </div>
+                <div>
+                     <label for="customer-address" class="hidden">Alamat</label>
+                    <input type="text" id="customer-address" required placeholder="Alamat Lengkap" class="w-full px-4 py-2 bg-white/70 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                </div>
+<div class="relative">
+    <input type="date" id="customer-date" required class="date-time-input w-full px-4 py-2 bg-white border border-slate-300 rounded-lg transition text-gray-700">
+    <span class="placeholder-text absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-opacity">
+        Tanggal Pengiriman
+    </span>
+</div>
+
+<div class="relative">
+    <input type="time" id="customer-time" required class="date-time-input w-full px-4 py-2 bg-white border border-slate-300 rounded-lg transition text-gray-700">
+    <span class="placeholder-text absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none transition-opacity">
+        Jam Pengiriman
+    </span>
+</div>
+            </div>
+        </div>
+        
+        <div id="reservation-form" class="tab-pane hidden">
+            <p class="text-sm text-slate-600 mb-4">Ada rencana makan bersama di tempat kami?</p>
+            <button id="open-reservation-modal-btn" class="w-full bg-amber-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-amber-600 transition flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                Buat Reservasi
+            </button>
+        </div>
+    </div>
+</div>
                         <div id="restore-cart-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-800 px-4 py-3 rounded-lg relative mb-6" role="alert">
                             <strong class="font-bold">Ada pesanan yang tersimpan!</strong>
                             <span class="block sm:inline ml-2">Ingin memuat kembali item dari kunjungan terakhir?</span>
@@ -47,26 +97,6 @@
                             </button>
                             <button id="dismiss-restore-btn" class="absolute top-0 bottom-0 right-0 px-4 py-3 text-lg font-bold" title="Tutup">&times;</button>
                         </div>
-                        <h2 class="text-xl font-bold text-slate-800 tracking-tight mb-4">Informasi Pelanggan</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                            <div>
-                                <label for="customer-name" class="block text-sm font-medium text-slate-600 mb-1">Nama Anda</label>
-                                <input type="text" id="customer-name" required class="w-full px-1 py-2 bg-transparent border-0 border-b-2 border-slate-300 focus:outline-none focus:ring-0 focus:border-amber-600 transition">
-                            </div>
-                            <div>
-                                <label for="customer-address" class="block text-sm font-medium text-slate-600 mb-1">Alamat / No. Meja</label>
-                                <input type="text" id="customer-address" required class="w-full px-1 py-2 bg-transparent border-0 border-b-2 border-slate-300 focus:outline-none focus:ring-0 focus:border-amber-600 transition">
-                            </div>
-                            <div>
-                                <label for="customer-date" class="block text-sm font-medium text-slate-600 mb-1">Tanggal Pengiriman</label>
-                                <input type="date" id="customer-date" required class="w-full px-1 py-2 bg-transparent border-0 border-b-2 border-slate-300 focus:outline-none focus:ring-0 focus:border-amber-600 transition">
-                            </div>
-                            <div>
-                                <label for="customer-time" class="block text-sm font-medium text-slate-600 mb-1">Jam Pengiriman</label>
-                                <input type="time" id="customer-time" required class="w-full px-1 py-2 bg-transparent border-0 border-b-2 border-slate-300 focus:outline-none focus:ring-0 focus:border-amber-600 transition">
-                            </div>
-                        </div>
-                    </div>
                     <div class="mt-10 mb-10">
                         <h2 class="text-2xl font-bold text-slate-800 tracking-tight mb-4">Menu Rekomendasi Kami</h2>
                         <div class="swiper-container recommendation-slider overflow-hidden">
@@ -160,9 +190,49 @@
             </div>
         </div>
     </div>
-    <script type="module" src="js/main.js">
+    <div id="reservation-modal" class="modal-overlay">
+    <div class="modal-container">
+        <button id="close-reservation-modal-btn" class="absolute top-3 right-4 text-3xl font-bold text-slate-400 hover:text-slate-800">&times;</button>
+        <h3 class="text-2xl font-bold text-slate-800 mb-4">Formulir Reservasi Tempat</h3>
+        
+        <div class="space-y-4">
+            <div>
+                <label for="reservation-name" class="block text-sm font-medium text-slate-700">Nama</label>
+                <input type="text" id="reservation-name" required placeholder="Atas nama siapa?" class="mt-1 w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+            </div>
+            <div>
+                <label for="reservation-whatsapp" class="block text-sm font-medium text-slate-700">No. WhatsApp Aktif</label>
+                <input type="tel" id="reservation-whatsapp" required placeholder="Contoh: 08123456789" class="mt-1 w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+            </div>
+            <div>
+                <label for="reservation-pax" class="block text-sm font-medium text-slate-700">Jumlah Orang</label>
+                <input type="number" id="reservation-pax" required placeholder="Contoh: 4" class="mt-1 w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="reservation-date" class="block text-sm font-medium text-slate-700">Tanggal</label>
+                    <input type="date" id="reservation-date" required class="mt-1 w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                </div>
+                <div>
+                    <label for="reservation-time" class="block text-sm font-medium text-slate-700">Jam</label>
+                    <input type="time" id="reservation-time" required class="mt-1 w-full px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+                </div>
+            </div>
+            <div>
+    <label for="reservation-notes" class="block text-sm font-medium text-slate-600 mb-1">Catatan Tambahan (Opsional)</label>
+    <textarea id="reservation-notes" rows="3" placeholder="Contoh: Request kursi di dekat jendela" class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded-lg"></textarea>
+</div>
+        </div>
+        
+        <div class="flex justify-end gap-4 mt-8">
+            <button id="cancel-reservation-btn" class="px-6 py-2 bg-slate-200 text-slate-800 rounded-lg hover:bg-slate-300 transition">Batal</button>
+            <button id="send-reservation-btn" class="px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Kirim Reservasi</button>
+        </div>
+    </div>
+</div>
     
-    </script>
+    
+    <script type="module" src="js/main.js"></script>
     
 </body>
 
