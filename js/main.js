@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const totalPriceDisplay = document.getElementById('total-price-display');
   const orderButtonsContainer = document.getElementById('order-buttons-container');
   const customerNameInput = document.getElementById('customer-name');
+  const customerPhoneInput = document.getElementById('customer-phone');
   const customerAddressInput = document.getElementById('customer-address');
   const customerDateInput = document.getElementById('customer-date');
   const customerTimeInput = document.getElementById('customer-time');
@@ -215,7 +216,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!button) return;
     let isFormValid = true;
     let firstInvalidField = null;
-    [customerNameInput, customerAddressInput, customerDateInput, customerTimeInput].forEach(input => {
+    [customerNameInput,
+    customerPhoneInput,
+    customerAddressInput, customerDateInput, customerTimeInput].forEach(input => {
       input.classList.remove('validation-error');
       if (!input.value.trim()) {
         input.classList.add('validation-error');
@@ -248,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const timeValue = customerTimeInput.value || 'Tidak diisi';
     let message = `Halo, saya mau pesan atas nama:\n\n` +
       `*Nama:* ${customerNameInput.value.trim()}\n` +
+      `*No. Telepon:* ${customerPhoneInput.value.trim()}\n` +
       `*Alamat:* ${customerAddressInput.value.trim()}\n` +
       `*Tgl Pengiriman:* ${formattedDate}\n` +
       `*Jam Pengiriman:* ${timeValue}\n\n` +
