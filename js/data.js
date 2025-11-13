@@ -18,7 +18,7 @@ export const allMenuData = [
     {
         id: 'spesial-bebek',
         name: 'Paket Spesial I Bebek',
-        price: 46000,
+        price: 48000,
         category: 'Spesial',
         group: 'Paket Spesial I',
         note:'Pemesanan H-1',
