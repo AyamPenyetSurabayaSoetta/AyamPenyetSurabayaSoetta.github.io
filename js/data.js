@@ -117,7 +117,7 @@ export const allMenuData = [
     { 
         id: 'paket-bebek-paha', 
         name: 'Paket Bebek Penyet (Paha)',
-        price: 40000, 
+        price: 43000, 
         category: 'Paket', 
         group: 'Paket Bebek Penyet', 
         isRecommended: true,
@@ -128,7 +128,7 @@ export const allMenuData = [
     { 
         id: 'paket-bebek-dada', 
         name: 'Paket Bebek Penyet (Dada)',
-        price: 40000, 
+        price: 43000, 
         category: 'Paket', 
         group: 'Paket Bebek Penyet', 
         isRecommended: true,
@@ -379,7 +379,7 @@ export const allMenuData = [
     { 
         id: 'Bebek-goreng-paha', 
         name: 'Bebek Goreng(Paha)', 
-        price: 31000, 
+        price: 35000, 
         category: 'Satuan', 
         group: 'Bebek Goreng (satuan)',
         image: 'images/makanan/BP.jpg',
@@ -389,7 +389,7 @@ export const allMenuData = [
     { 
         id: 'Bebek-goreng-Dada', 
         name: 'Bebel Goreng (Dada)', 
-        price: 31000, 
+        price: 35000, 
         category: 'Satuan', 
         group: 'Bebek Goreng (satuan)',
         image: 'images/makanan/BP.jpg',
