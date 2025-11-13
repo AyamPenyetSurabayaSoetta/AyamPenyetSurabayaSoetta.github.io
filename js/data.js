@@ -388,7 +388,7 @@ export const allMenuData = [
     },
     { 
         id: 'Bebek-goreng-Dada', 
-        name: 'Bebel Goreng (Dada)', 
+        name: 'Bebek Goreng (Dada)', 
         price: 35000, 
         category: 'Satuan', 
         group: 'Bebek Goreng (satuan)',
