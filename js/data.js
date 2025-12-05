@@ -7,7 +7,7 @@ export const allMenuData = [
     {
         id: 'spesial-ayam',
         name: 'Paket Spesial I Ayam',
-        price: 50000,
+        price: 40000,
         category: 'Spesial',
         group: 'Paket Spesial I',
         note:'Pemesanan H-1',
