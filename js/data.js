@@ -7,7 +7,7 @@ export const allMenuData = [
     {
         id: 'spesial-ayam',
         name: 'Paket Spesial I Ayam',
-        price: 40000,
+        price: 41000,
         category: 'Spesial',
         group: 'Paket Spesial I',
         note:'Pemesanan H-1',
@@ -18,7 +18,7 @@ export const allMenuData = [
     {
         id: 'spesial-bebek',
         name: 'Paket Spesial I Bebek',
-        price: 48000,
+        price: 50000,
         category: 'Spesial',
         group: 'Paket Spesial I',
         note:'Pemesanan H-1',
@@ -29,7 +29,7 @@ export const allMenuData = [
     {
         id: 'spesial-gurame',
         name: 'Paket Spesial I Gurame',
-        price: 45000,
+        price: 46000,
         category: 'Spesial',
         group: 'Paket Spesial I',
         note:'Pemesanan H-1',
@@ -51,7 +51,7 @@ export const allMenuData = [
     {
         id: 'spesial-2-ayam',
         name: 'Paket Spesial II Ayam',
-        price: 42000,
+        price: 43000,
         category: 'Spesial',
         group: 'Paket Spesial II',
         note:'Pemesanan H-1',
@@ -62,7 +62,7 @@ export const allMenuData = [
     {
         id: 'spesial-2-bebek',
         name: 'Paket Spesial II Bebek',
-        price: 48000,
+        price: 52000,
         category: 'Spesial',
         group: 'Paket Spesial II',
         note:'Pemesanan H-1',
@@ -95,7 +95,7 @@ export const allMenuData = [
     { 
         id: 'paket-ayam-paha', 
         name: 'Paket Ayam Penyet (Paha)', 
-        price: 34000, 
+        price: 35000, 
         category: 'Paket', 
         group: 'Paket Ayam Penyet', 
         isRecommended: true,
@@ -106,7 +106,7 @@ export const allMenuData = [
     { 
         id: 'paket-ayam-dada', 
         name: 'Paket Ayam Penyet (Dada)', 
-        price: 34000, 
+        price: 35000, 
         category: 'Paket', 
         group: 'Paket Ayam Penyet', 
         isRecommended: true,
@@ -117,7 +117,7 @@ export const allMenuData = [
     { 
         id: 'paket-bebek-paha', 
         name: 'Paket Bebek Penyet (Paha)',
-        price: 43000, 
+        price: 45000, 
         category: 'Paket', 
         group: 'Paket Bebek Penyet', 
         isRecommended: true,
@@ -128,7 +128,7 @@ export const allMenuData = [
     { 
         id: 'paket-bebek-dada', 
         name: 'Paket Bebek Penyet (Dada)',
-        price: 43000, 
+        price: 45000, 
         category: 'Paket', 
         group: 'Paket Bebek Penyet', 
         isRecommended: true,
@@ -418,7 +418,7 @@ export const allMenuData = [
     { 
         id: 'Balado-terong', 
         name: 'Balado Terong', 
-        price: 14000, 
+        price: 16000, 
         category: 'Lauk & Sayur', 
         image:'images/sayuran/Terong.jpg',
         desc: 'Balado Terong Lezat, cocok untuk lauk.' 
@@ -503,7 +503,7 @@ export const allMenuData = [
     { 
         id: 'udang-goreng-tepung', 
         name: 'Udang Goreng Tepung', 
-        price: 36000, 
+        price: 48000, 
         category: 'Lauk & Sayur', 
         group: 'Udang', 
         image: 'images/sayuran/udang.jpg',
@@ -513,7 +513,7 @@ export const allMenuData = [
     { 
         id: 'Udang-balado', 
         name: 'Udang Balado', 
-        price: 36000, 
+        price: 48000, 
         category: 'Lauk & Sayur', 
         group: 'Udang', 
         image: 'images/sayuran/udang.jpg',
@@ -523,7 +523,7 @@ export const allMenuData = [
     { 
         id: 'cumi-goreng-tepung', 
         name: 'Cumi Goreng Tepung', 
-        price: 36000, 
+        price: 48000, 
         category: 'Lauk & Sayur', 
         group: 'Cumi', 
         image: 'images/sayuran/cumi.jpg',
@@ -533,7 +533,7 @@ export const allMenuData = [
     { 
         id: 'Cumi-balado', 
         name: 'Cumi Balado', 
-        price: 36000, 
+        price: 48000, 
         category: 'Lauk & Sayur', 
         group: 'Cumi', 
         image: 'images/sayuran/cumi.jpg',
